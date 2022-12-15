@@ -30,13 +30,14 @@ for i in range(0, max_x):
 for s in sensors:
     distance = abs(s[2] - s[0]) + abs(s[3] - s[1])
     for row in range(max(0, s[1] - distance), min(s[1] + distance, max_x)):
-        if row % 1000 == 0: print(s, distance, row)
+        if row % 1000 == 0: print(row)
         delta_x = distance - abs(s[1] - row)
-        eliminated_ranges[row].append((max(0, s[0] - delta_x), min(max_x, s[0] + delta_x)))
+        rng = (max(0, s[0] - delta_x), min(max_x, s[0] + delta_x))
+        eliminated_ranges[row].append(rng)
 
 found = False
 for i in range(len(eliminated_ranges)):
-    if i % 1000: print (i)
+    if i % 1000 == 0: print (i)
     if found: break
     row = eliminated_ranges[i]
     row.sort()
@@ -45,7 +46,7 @@ for i in range(len(eliminated_ranges)):
     for j in range(1, len(row)):
         if row[j][0] > rng[1] + 1: # fully-closed/inclusive ranges
             print(rng[1] + 1, i)
-            print((rng[1] + 1) * (max_x - 1) , i)
+            print((rng[1] + 1) * (max_x - 1) + i)
             found = True
             break
         if row[j][1] > rng[1]:
